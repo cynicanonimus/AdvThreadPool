@@ -3,3 +3,4 @@ List of changes in the project AdvThreadPool.
 Date            CommitID                Changes
 
 20.04.2013	20.04.2013-1		Initial upload of the project. Project NOT tested completely yet. 
+20.04.2013      20.04.2013-2		Add text of licence to the every file of the project
