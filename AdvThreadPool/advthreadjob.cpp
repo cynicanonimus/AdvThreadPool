@@ -27,3 +27,11 @@ AdvThreadJob::~AdvThreadJob()
 {
 
 }
+
+void AdvThreadJob::setPriority    ( QThread::Priority en_prio)
+{
+    if (QThread::InheritPriority == en_prio)
+        m_Prio = QThread::IdlePriority;
+    else
+        m_Prio = en_prio;
+}

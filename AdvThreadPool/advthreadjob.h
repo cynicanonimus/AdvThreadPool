@@ -32,7 +32,7 @@ public:
     bool                autoDelete     ()                  const    { return m_iRefCounter != -1; }
     void                setAutoDelete  ( bool _autoDelete)          { m_iRefCounter = _autoDelete ? 0 : -1; }
     //
-    void                setPriority    ( QThread::Priority en_prio) { m_Prio = en_prio; }
+    void                setPriority    ( QThread::Priority en_prio);
     QThread::Priority   getPriority    () const                     { return m_Prio;}
     //
     virtual bool        exec() = 0;

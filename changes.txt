@@ -4,3 +4,6 @@ Date            CommitID                Changes
 
 20.04.2013	20.04.2013-1		Initial upload of the project. Project NOT tested completely yet. 
 20.04.2013      20.04.2013-2		Add text of licence to the every file of the project
+---------------------------------------------------------------------------------------------------------
+21.04.2013	21.04.2013-1		Implement FIFO and PRIO modells in the treadpool (see comments in the code)
+					modify test application.

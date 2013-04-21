@@ -22,7 +22,7 @@
 #include <QCoreApplication>
 #include <QMutexLocker>
 //
-//#include <iostream> // only for debug
+#include <iostream> // only for debug
 
 AdvThreadPool::AdvThreadPool(QObject *parent) :
     QObject(parent)
@@ -30,6 +30,8 @@ AdvThreadPool::AdvThreadPool(QObject *parent) :
     m_uiMaxThreadNumber = 0;
     m_uiUniquer         = 0;
     m_EnableWork        = false;
+    //
+    setMode (en_FIFO);
 }
 
 AdvThreadPool::~AdvThreadPool()
@@ -61,6 +63,12 @@ void AdvThreadPool::init(unsigned int ui_threads_amount)
         m_uiMaxThreadNumber = QThread::idealThreadCount();
     //
     m_EnableWork = true;
+}
+
+void AdvThreadPool::setMode (PoolMode en_mode)
+{
+    QMutexLocker locker (&m_TaskLocker);
+    m_enPoolMode = en_mode;
 }
 
 bool AdvThreadPool::execute(AdvThreadJob* ptr_job)
@@ -181,8 +189,35 @@ int AdvThreadPool::getTaskQueueSize() const
 
 void AdvThreadPool::addJobToQueue   (AdvThreadJob* ptr_job)
 {
-        QMutexLocker locker (&m_TaskLocker);
+    QMutexLocker locker (&m_TaskLocker);
+    //
+    if (en_FIFO == m_enPoolMode)
+    {
         m_TaskQueue.enqueue(ptr_job);
+    }else
+    {
+        int i_insertion_position = -1;
+
+        for (int i = 0; i< m_TaskQueue.size(); i++)
+        {
+            AdvThreadJob* ptr_queue_job =  m_TaskQueue.at(i);
+            //
+            const QThread::Priority queue_prio = ptr_queue_job->getPriority();
+            const QThread::Priority job_prio = ptr_job->getPriority();
+            //
+//            std::cout<<"queue prio: "<<(int) queue_prio<<" job prio: "<<(int)job_prio<<std::endl;
+            //
+            if ( queue_prio < job_prio )
+            {
+                i_insertion_position = i;
+                break;
+            };
+        }
+        if (i_insertion_position != -1)
+            m_TaskQueue.insert(i_insertion_position, ptr_job);
+        else
+            m_TaskQueue.enqueue(ptr_job);
+    };
 }
 
 AdvThreadJob*   AdvThreadPool::extractNextJob ()

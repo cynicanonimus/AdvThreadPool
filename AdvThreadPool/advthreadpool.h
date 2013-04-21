@@ -31,34 +31,45 @@ QT_FORWARD_DECLARE_CLASS(AdvThread)
 class AdvThreadPool : public QObject
 {
     Q_OBJECT
+    /*
+        set threadpool mode of the work
+        en_FIFO - First In - First Out. (default mode)
+        en_PRIO - the order execution depends of task priority
+    */
+
+public:
+
+    enum PoolMode
+    {
+        en_FIFO,
+        en_PRIO
+    };
+
 public:
 
     ~AdvThreadPool();
     //
-    static AdvThreadPool&   getInstance ();
-    void                    init        (unsigned int ui_threads_amount = 0);
-    bool                    execute     (AdvThreadJob* ptr_job);
-    void                    stop        (bool b_wait_until_idle = true);
-    bool                    isIdle      ();
-
+    static AdvThreadPool&   getInstance     ();
+    void                    init            (unsigned int ui_threads_amount = 0);
+    bool                    execute         (AdvThreadJob* ptr_job);
+    void                    stop            (bool b_wait_until_idle = true);
+    bool                    isIdle          ();
+    void                    setMode         (PoolMode en_mode);
+    //
 private:
-    AdvThreadPool(QObject *parent = 0);
-    //
-    //
-             AdvThreadPool (AdvThreadPool const&);
-    void operator=(AdvThreadPool const&);
-
+                            AdvThreadPool   (QObject *parent = 0);
+    void                    operator=(AdvThreadPool const&);
 
 signals:
 
 public slots:
-    void onFinishThread(unsigned int);
 
 private slots:
+    void            onFinishThread          (unsigned int);
 
 private:
-    AdvThread*  reserveAvailableThread  ();
-    AdvThread*  createReservedThread    ();
+    AdvThread*      reserveAvailableThread  ();
+    AdvThread*      createReservedThread    ();
     //
     int             getTaskQueueSize        () const;
     void            addJobToQueue           (AdvThreadJob* ptr_job);
@@ -76,6 +87,7 @@ private:
     unsigned int                    m_uiMaxThreadNumber;
     unsigned int                    m_uiUniquer;
     bool                            m_EnableWork;
+    PoolMode                        m_enPoolMode;
 
 };
 
