@@ -7,3 +7,4 @@ Date            CommitID                Changes
 ---------------------------------------------------------------------------------------------------------
 21.04.2013	21.04.2013-1		Implement FIFO and PRIO modells in the treadpool (see comments in the code)
 					modify test application.
+21.04.2013      21.04.2013-2		change README.md
