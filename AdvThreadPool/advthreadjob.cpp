@@ -16,8 +16,7 @@
     along with pdb.  If not, see <http://www.gnu.org/licenses/>.
 */
 //
-AdvThreadJob::AdvThreadJob(QObject *parent) :
-    QObject(parent)
+AdvThreadJob::AdvThreadJob()
 {
     m_Prio = QThread::IdlePriority;
     m_iRefCounter = 0;

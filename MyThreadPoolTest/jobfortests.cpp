@@ -20,8 +20,7 @@
 #include <QCoreApplication>
 #include <iostream>
 
-JobForTests::JobForTests(int id, int delay, QObject *parent) :
-    AdvThreadJob(parent)
+JobForTests::JobForTests(int id, int delay)
 {
     m_id = id;
     m_idelay = delay;

@@ -22,9 +22,8 @@
 
 class JobForTests : public AdvThreadJob
 {
-    Q_OBJECT
 public:
-    explicit JobForTests(int id, int delay, QObject *parent = 0);
+    explicit JobForTests(int id, int delay);
 
 public:
     //

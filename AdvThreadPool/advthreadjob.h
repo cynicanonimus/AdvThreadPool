@@ -21,11 +21,11 @@
 #include <QThread>
 #include <QRunnable>
 
-class AdvThreadJob : public QObject
+class AdvThreadJob
 {
-    Q_OBJECT
+
 public:
-    explicit AdvThreadJob(QObject *parent = 0);
+    explicit AdvThreadJob();
     virtual ~AdvThreadJob();
 
 public:
