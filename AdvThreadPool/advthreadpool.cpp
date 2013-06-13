@@ -112,7 +112,7 @@ void AdvThreadPool::stop (bool b_wait_until_idle)
     //
     if (b_wait_until_idle)
     {
-        while (isIdle() == false)
+        while ( (isIdle() == false) && getTaskQueueSize() > 0)
         {
             QTime dieTime= QTime::currentTime().addSecs(1);
             //
@@ -123,7 +123,6 @@ void AdvThreadPool::stop (bool b_wait_until_idle)
         };
     };
     //
-    Q_ASSERT(getTaskQueueSize() == 0);
     return;
 }
 
@@ -194,7 +193,7 @@ void AdvThreadPool::addJobToQueue   (AdvThreadJob* ptr_job)
     if (en_FIFO == m_enPoolMode)
     {
         m_TaskQueue.enqueue(ptr_job);
-    }else
+    }else // in this case we are basing on the priority, not FIFO.
     {
         int i_insertion_position = -1;
 

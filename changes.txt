@@ -9,3 +9,5 @@ Date            CommitID                Changes
 					modify test application.
 21.04.2013      21.04.2013-2		change README.md
 21.04.2013      21.04.2013-3            modify AdvThreadJob interface
+---------------------------------------------------------------------------------------------------------
+13.06.2013	13.06.2013-1		fix problem in the stop function of ThreadPool

@@ -26,10 +26,10 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
     //
-    const AdvThreadPool::PoolMode en_mode = AdvThreadPool::en_PRIO; // or change it to AdvThreadPool::en_FIFO and see how does it works
+    const AdvThreadPool::PoolMode en_mode = AdvThreadPool::en_FIFO; // or change it to AdvThreadPool::en_FIFO and see how does it works
     //
-    const int i_threads_number      = 3; //"0" means "set optimal amount automatically"
-    const int jobs_total_number     = 50;
+    const int i_threads_number      = 1; //"0" means "set optimal amount automatically"
+    const int jobs_total_number     = 10;
     const int i_long_job_time_sec   = 8;
     const int i_short_job_time_sec  = 1;
     //
@@ -64,6 +64,7 @@ int main(int argc, char *argv[])
         AdvThreadPool::getInstance().execute(ptr_job);
     };
     //
+    std::cout<<"Waiting for the queue finish...."<<std::endl;
     AdvThreadPool::getInstance().stop();
     //
     std::cout<<"Test done."<<std::endl;
