@@ -110,16 +110,17 @@ void AdvThreadPool::stop (bool b_wait_until_idle)
 {
     m_EnableWork = false;
     //
+    int i_max_cycle_repeat = 1000;
+    int i_current_step = 0;
     if (b_wait_until_idle)
     {
-        while ( (isIdle() == false) && getTaskQueueSize() > 0)
+        while ( (isIdle() == false) || getTaskQueueSize() > 0)
         {
-            QTime dieTime= QTime::currentTime().addSecs(1);
+            if (i_current_step >=  i_max_cycle_repeat)
+                break;
             //
-            while( QTime::currentTime() < dieTime )
-            {
-                QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
-            };
+            QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+            i_current_step++;
         };
     };
     //
