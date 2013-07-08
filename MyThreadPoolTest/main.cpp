@@ -28,9 +28,9 @@ int main(int argc, char *argv[])
     //
     const AdvThreadPool::PoolMode en_mode = AdvThreadPool::en_FIFO; // or change it to AdvThreadPool::en_FIFO and see how does it works
     //
-    const int i_threads_number      = 1; //"0" means "set optimal amount automatically"
-    const int jobs_total_number     = 10;
-    const int i_long_job_time_sec   = 8;
+    const int i_threads_number      = 2; //"0" means "set optimal amount automatically"
+    const int jobs_total_number     = 20;
+    const int i_long_job_time_sec   = 1;
     const int i_short_job_time_sec  = 1;
     //
     AdvThreadPool::getInstance().init(i_threads_number);

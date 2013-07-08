@@ -52,7 +52,7 @@ public:
     static AdvThreadPool&   getInstance     ();
     void                    init            (unsigned int ui_threads_amount = 0);
     bool                    execute         (AdvThreadJob* ptr_job);
-    void                    stop            (bool b_wait_until_idle = true);
+    void                    stop            ();
     bool                    isIdle          ();
     void                    setMode         (PoolMode en_mode);
     //
@@ -65,17 +65,22 @@ signals:
 public slots:
 
 private slots:
-    void            onFinishThread          (unsigned int);
+    void            onStandardFinish        ();
 
 private:
-    AdvThread*      reserveAvailableThread  ();
+    //
+    AdvThread*      getAvailableThread      ();
+    //
     AdvThread*      createReservedThread    ();
+    //QThread*        reserveAvailableThread  ();
+    //QThread*        createReservedThread    ();
     //
     int             getTaskQueueSize        () const;
     void            addJobToQueue           (AdvThreadJob* ptr_job);
     AdvThreadJob*   extractNextJob          ();
 
 private:
+    //typedef QMap<unsigned int, AdvThread*>  ThreadMap;
     typedef QMap<unsigned int, AdvThread*>  ThreadMap;
 
     mutable QMutex                  m_TaskLocker;

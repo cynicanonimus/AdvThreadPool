@@ -28,11 +28,14 @@ JobForTests::JobForTests(int id, int delay)
 
 bool JobForTests::exec()
 {
-    QTime dieTime= QTime::currentTime().addSecs(m_idelay);
     //
+    int i_counter = 0;
+    QTime dieTime= QTime::currentTime().addSecs(1);
     while( QTime::currentTime() < dieTime )
     {
         QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+        if (i_counter > 5)
+            break;
     };
     //
     std::cout<<"job N ["<<m_id<<"]"<<std::endl;
