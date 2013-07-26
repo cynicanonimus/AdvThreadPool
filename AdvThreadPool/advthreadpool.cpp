@@ -177,8 +177,6 @@ void AdvThreadPool::addJobToQueue   (AdvThreadJob* ptr_job)
             const QThread::Priority queue_prio = ptr_queue_job->getPriority();
             const QThread::Priority job_prio = ptr_job->getPriority();
             //
-//            std::cout<<"queue prio: "<<(int) queue_prio<<" job prio: "<<(int)job_prio<<std::endl;
-            //
             if ( queue_prio < job_prio )
             {
                 i_insertion_position = i;
@@ -221,20 +219,41 @@ AdvThread*  AdvThreadPool::getAvailableThread ()
     //
     return ptr_available_thread;
 }
+/*
+this is old version, but I will remove it later
 
+*/
 void AdvThreadPool::onStandardFinish ()
 {
-    QMutexLocker locker (&m_PoolLocker);
+    //QMutexLocker locker (&m_PoolLocker);
     //
+/*
+    QObject* ptr_sender = QObject::sender();
+
     std::cout<<"finish triggered, queuse size:"<<getTaskQueueSize()<<std::endl;
     AdvThreadJob* ptr_job = NULL;
     //
     if (getTaskQueueSize() > 0)
     {
+        AdvThread* ptr_thread =  AdvThreadPool::getAvailableThread ();
+        ptr_job = extractNextJob();
+        //
+        if (ptr_thread)
+        {
+            ptr_thread->setJob(ptr_job);
+            ptr_thread->start( ptr_job->getPriority() );
+        };
+*/
+
+
+/*
         ThreadMap::const_iterator i = m_Pool.constBegin();
         //
         while (i != m_Pool.constEnd())
         {
+            bool b_isfinished = i.value()->isFinished();
+            bool b_isrunning  = i.value()->isRunning();
+            //
             if ( i.value()->isFinished() )
             {
                 ptr_job = extractNextJob();
@@ -242,6 +261,30 @@ void AdvThreadPool::onStandardFinish ()
                 i.value()->start( ptr_job->getPriority() );
             };
             ++i;
+        };
+
+    };
+*/
+    //
+    return;
+}
+
+void  AdvThreadPool::onCheckFinish ()
+{
+    QObject* ptr_sender = QObject::sender();
+
+    std::cout<<"finish triggered, queuse size:"<<getTaskQueueSize()<<std::endl;
+    AdvThreadJob* ptr_job = NULL;
+    //
+    if (getTaskQueueSize() > 0)
+    {
+        AdvThread* ptr_thread =  AdvThreadPool::getAvailableThread ();
+        ptr_job = extractNextJob();
+        //
+        if (ptr_thread)
+        {
+            ptr_thread->setJob(ptr_job);
+            ptr_thread->start( ptr_job->getPriority() );
         };
     };
     //
@@ -258,7 +301,7 @@ AdvThread* AdvThreadPool::createReservedThread ()
     {
         const unsigned int ui_id = ++m_uiUniquer;
         ptr_thread = new AdvThread(ui_id);
-        QObject::connect(ptr_thread, SIGNAL(finished()), this, SLOT(onStandardFinish()), Qt::DirectConnection);
+        QObject::connect(ptr_thread, SIGNAL(th_finished()), this, SLOT(onCheckFinish() ));
         //
         m_Pool[ui_id] = ptr_thread;
     };

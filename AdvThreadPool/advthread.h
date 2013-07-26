@@ -42,7 +42,7 @@ public:
     //bool            isActive    ();
 signals:
 //    void ThreadStarted(unsigned int ui_unique_id);
-//    void ThreadFinished(unsigned int ui_unique_id);
+    void th_finished();
 
 public slots:
 

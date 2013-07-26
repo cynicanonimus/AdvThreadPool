@@ -44,8 +44,9 @@ void AdvThread::run()
             //
             m_ptrActualJob = NULL;
         };
-    }
+    };
     //
+    emit th_finished();
 }
 
 void AdvThread::setJob(AdvThreadJob* ptr_job)

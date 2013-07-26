@@ -66,6 +66,7 @@ public slots:
 
 private slots:
     void            onStandardFinish        ();
+    void            onCheckFinish           ();
 
 private:
     //
